@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "glass_dd"
+  site-url: "https://cgubbin.github.io/glass_dd"
+  description: "Defect detection in glass using fastai"
+  repo-branch: main
+  repo-url: "https://github.com/cgubbin/glass_dd"
