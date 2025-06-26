@@ -71,6 +71,30 @@
         # Use Python 3.13 from nixpkgs
         python = pkgs.python313;
 
+        pythonPackages = pkgs.python313Packages;
+
+        jupyterlabQuarto =
+          let
+            pname = "jupyterlab_quarto";
+            version = "0.3.5";
+          in
+          pythonPackages.buildPythonPackage {
+            inherit pname version;
+            src = pkgs.fetchPypi {
+              inherit pname version;
+              sha256 = "sha256-U1+ep+HmfrwOfSsUsFEmOZVRiB9loOzV0AuEN7ZrqXQ=";
+            };
+            doCheck = true;
+            pyproject = true;
+            propagatedBuildInputs = [
+              pythonPackages.hatchling
+              pythonPackages.hatch-jupyter-builder
+              pythonPackages.hatch-nodejs-version
+              pythonPackages.jupyterlab
+            ];
+
+          };
+
         # Construct package set
         pythonSet =
           # Use base package set from pyproject.nix builders
@@ -113,6 +137,7 @@
               # python
               pkgs.quarto
               pkgs.uv
+              jupyterlabQuarto
               (python.withPackages (
                 p: with p; [
                   p.ruff
@@ -121,29 +146,28 @@
                   p.jupyter
                   p.ipython
                   p.ipykernel
-
                   p.nbdev
                   p.setuptools
 
+                  # Packages for molten
+                  p.jupyter_client
+                  p.cairosvg
+                  p.pnglatex
+                  # p.plotly
+                  p.kaleido
+                  p.pyperclip
+                  p.pynvim
+                  p.nbformat
+                  p.pillow
+                  p.requests
+                  p.websocket-client
+                  p.jupytext
                 ]
               ))
 
-              # pkgs.python313Packages.jupyter_client
-              # pkgs.python313Packages.cairosvg
-              # pkgs.python313Packages.pnglatex
-              # pkgs.python313Packages.plotly
-              # pkgs.python313Packages.kaleido
-              # pkgs.python313Packages.pyperclip
-              # pkgs.python313Packages.pynvim
-              # pkgs.python313Packages.nbformat
-              # pkgs.python313Packages.pillow
-              # pkgs.python313Packages.requests
-              # pkgs.python313Packages.websocket-client
-              # pkgs.python313Packages.jupytext
-
               # Ruby and jekyll are needed for the documentation build
-              # pkgs.ruby
-              # pkgs.rubyPackages.jekyll
+              pkgs.ruby
+              pkgs.rubyPackages.jekyll
             ];
             env =
               {

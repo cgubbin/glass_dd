@@ -1,3 +1,35 @@
 [build-system]
 requires = ["setuptools>=64.0"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "glass_dd"
+requires-python = ">=3.13"
+dynamic = [
+    "keywords",
+    "description",
+    "version",
+    "optional-dependencies",
+    "readme",
+    "license",
+    "authors",
+    "classifiers",
+    "entry-points",
+    "scripts",
+    "urls",
+]
+dependencies = [
+    "fastai>=2.8.2",
+    "fsspec>=2025.5.1",
+    "ipykernel>=6.29.5",
+    "matplotlib>=3.10.3",
+    "opencv-python>=4.11.0.86",
+    "wwf>=0.0.16",
+]
+
+[tool.uv]
+cache-keys = [
+    { file = "pyproject.toml" },
+    { file = "settings.ini" },
+    { file = "setup.py" },
+]
